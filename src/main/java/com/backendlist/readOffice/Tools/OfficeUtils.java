@@ -18,24 +18,13 @@ import java.util.List;
 /**
  * @author kj
  * @date 2023/4/28
- * @apiNote
+ * @apiNote office的工具类
  */
 @Slf4j
 public class OfficeUtils {
         //上传文件
     public static R<String> updateFiles(MultipartFile file){
         log.info("Updating files:{}",file.getContentType());
-
-        // File dir = new File("D:\\javac\\BackEndList");
-        // if (!dir.exists()){
-        //     dir.mkdir();
-        // }
-        // try {
-        //     file.transferTo(new File("target/classes/META-INF/"+file.getOriginalFilename()));
-        // } catch (IOException e) {
-        //     throw new RuntimeException(e);
-        // }
-        // File file1 = new File(file.getOriginalFilename());
 
 
         ExcelReader reader = null;

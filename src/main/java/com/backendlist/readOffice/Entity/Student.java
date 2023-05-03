@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author kj
  * @date 2023/4/27
- * @apiNote
+ * @apiNote student的实体类
  */
 
 @Data
