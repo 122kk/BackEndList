@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * @author kj
  * @date 2023/3/5
- * @apiNote
+ * @apiNote swagger的配置文件
  */
 @Configuration
 @EnableSwagger2
