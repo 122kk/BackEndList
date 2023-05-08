@@ -2,6 +2,7 @@ package com.backendlist.controller;
 
 import com.backendlist.ListTools.R;
 import com.backendlist.yanZhengMa.KaptchaDemo.Utils.KaptchaUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @apiNote 获取验证码接口
  */
 @RestController
+@Api(tags = "VerificationController", description = "秒杀案例接口")
 public class VerificationController {
     @Autowired
     KaptchaUtils kaptchaUtils;

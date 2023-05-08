@@ -5,6 +5,7 @@ import com.backendlist.RedisSeckill.domain.Order;
 import com.backendlist.RedisSeckill.mapper.GoodsMapper;
 import com.backendlist.RedisSeckill.service.GoodsService;
 import com.backendlist.RedisSeckill.service.OrderService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/secill")
 @Slf4j
+@Api(tags = "SeckillController", description = "秒杀案例接口")
 public class SeckillController {
     @Autowired
     RedisTemplate redisTemplate;
