@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/offices")
-@Api(tags = "OfficeController", description = "读取office内容接口")
+@Api(tags = "读取office内容接口", description = "读取office内容接口")
 public class OfficeController {
     @PostMapping("upload")
     @ApiOperation("读取Excel")

@@ -6,6 +6,7 @@ import com.backendlist.RedisSeckill.mapper.GoodsMapper;
 import com.backendlist.RedisSeckill.service.GoodsService;
 import com.backendlist.RedisSeckill.service.OrderService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/secill")
 @Slf4j
-@Api(tags = "SeckillController", description = "秒杀案例接口")
+@Api(tags = "秒杀案例接口", description = "秒杀案例接口")
 public class SeckillController {
     @Autowired
     RedisTemplate redisTemplate;
@@ -35,6 +36,7 @@ public class SeckillController {
     OrderService orderService;
     @PostMapping("/seckillGoods")
     @Transactional(rollbackFor = Exception.class)
+    @ApiOperation("秒杀案例")
     public R<String> SeckillGoods(){
         Long stock= redisTemplate.opsForValue().decrement("ipone20");
         if (stock<0){
