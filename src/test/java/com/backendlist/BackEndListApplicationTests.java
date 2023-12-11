@@ -1,6 +1,13 @@
 package com.backendlist;
 
 
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+import cn.hutool.poi.excel.cell.CellLocation;
+import cn.hutool.poi.excel.style.StyleUtil;
+import com.jacob.activeX.ActiveXComponent;
+import com.jacob.com.Dispatch;
+import com.jacob.com.Variant;
 import com.unfbx.chatgpt.OpenAiStreamClient;
 import com.unfbx.chatgpt.entity.chat.ChatCompletion;
 import com.unfbx.chatgpt.entity.chat.Message;
@@ -11,8 +18,18 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import sun.audio.AudioPlayer;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.Arrays;
@@ -255,8 +272,105 @@ class BackEndListApplicationTests {
         }
     }
 
+//将字符串转换为读音
+    @Test
+    void newTest(){
+        // 创建Excel写入器
+        int value=90;
+        if (value <0 || value >100){
+            value = 100;
+        }
+        //调用dll朗读方法
+        ActiveXComponent ax = new ActiveXComponent( "Sapi.SpVoice" ) ;
+        //音量 0-100
+        ax.setProperty("Volume",new Variant(value));
+        //朗读速度
+        ax.setProperty("Rate",new Variant(1));
+        //输入的语言内容
+        Dispatch dispatch = ax.getObject();
+        //执行朗读
+        Dispatch.call(dispatch,"Speak",new Variant("This is helloworld written in java"));
 
+    }
+
+    @Test
+    void disassemble(){
+
+    }
+
+    public static void textToSpeech(String text) {
+        ActiveXComponent ax = null;
+        try {
+            ax = new ActiveXComponent("Sapi.SpVoice");
+
+            // 运行时输出语音内容
+            Dispatch spVoice = ax.getObject();
+            // 音量 0-100
+            ax.setProperty("Volume", new Variant(100));
+            // 语音朗读速度 -10 到 +10
+            ax.setProperty("Rate", new Variant(-1));
+            // 执行朗读
+            Dispatch.call(spVoice, "Speak", new Variant(text));
+
+            // 下面是构建文件流把生成语音文件
+
+            ax = new ActiveXComponent("Sapi.SpFileStream");
+            Dispatch spFileStream = ax.getObject();
+
+            ax = new ActiveXComponent("Sapi.SpAudioFormat");
+            Dispatch spAudioFormat = ax.getObject();
+
+            // 设置音频流格式
+            Dispatch.put(spAudioFormat, "Type", new Variant());
+            // 设置文件输出流格式
+            Dispatch.putRef(spFileStream, "Format", spAudioFormat);
+            // 调用输出 文件流打开方法，创建一个.wav文件
+            Dispatch.call(spFileStream, "Open", new Variant(), new Variant(), new Variant());
+            // 设置声音对象的音频输出流为输出文件对象
+            Dispatch.putRef(spVoice, "AudioOutputStream", spFileStream);
+            // 设置音量 0到100
+            Dispatch.put(spVoice, "Volume", new Variant(100));
+            // 设置朗读速度
+            Dispatch.put(spVoice, "Rate", new Variant(-4));
+            // 开始朗读
+            Dispatch.call(spVoice, "Speak", new Variant(text));
+
+            // 关闭输出文件
+            Dispatch.call(spFileStream, "Close");
+            Dispatch.putRef(spVoice, "AudioOutputStream", null);
+
+            spAudioFormat.safeRelease();
+            spFileStream.safeRelease();
+            spVoice.safeRelease();
+            ax.safeRelease();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void playAudio(AudioInputStream audio) throws IOException, LineUnavailableException {
+        Clip clip = AudioSystem.getClip();
+        clip.open(audio);
+        clip.start();
+
+        // 等待音频播放完成
+        while (clip.isOpen()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        clip.close();
+        audio.close();
+    }
 }
+
+
+
+
 //     Your contact record has been successfully created with the following
 //     data. You still need to activate it, by going to the following page:
 //         https://nic.eu.org/arf/en/contact/validate/JMM72/TtBmvNLVjnDzyGXS/

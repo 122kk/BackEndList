@@ -1,7 +1,7 @@
 package com.backendlist.controller;
 
 import com.backendlist.ListTools.R;
-import com.backendlist.rabbitmqMQTTTest.config.MqttGateway;
+// import com.backendlist.rabbitmqMQTTTest.config.MqttGateway;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mqtt")
 public class MqttController {
  
-    @Autowired
-    private MqttGateway mqttGateway;
- 
-    @PostMapping("/sendToDefaultTopic")
-    @ApiOperation("向默认主题发送消息")
-    public R<String> sendToDefaultTopic(String payload) {
-        mqttGateway.sendToMqtt(payload);
-        return R.success(200,"发送成功");
-    }
- 
-    @PostMapping("/sendToTopic")
-    @ApiOperation("向指定主题发送消息")
-    public R<String> sendToTopic(String payload, String topic) {
-        mqttGateway.sendToMqtt(payload, topic);
-        return R.success(200,"发送成功");
-    }
+    // @Autowired
+    // private MqttGateway mqttGateway;
+    //
+    // @PostMapping("/sendToDefaultTopic")
+    // @ApiOperation("向默认主题发送消息")
+    // public R<String> sendToDefaultTopic(String payload) {
+    //     mqttGateway.sendToMqtt(payload);
+    //     return R.success(200,"发送成功");
+    // }
+    //
+    // @PostMapping("/sendToTopic")
+    // @ApiOperation("向指定主题发送消息")
+    // public R<String> sendToTopic(String payload, String topic) {
+    //     mqttGateway.sendToMqtt(payload, topic);
+    //     return R.success(200,"发送成功");
+    // }
 }
